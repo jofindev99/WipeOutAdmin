@@ -1,0 +1,23 @@
+{
+  "name": "wipe_out_admin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jofindev99/WipeOutAdmin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jofindev99/WipeOutAdmin/issues"
+  },
+  "homepage": "https://github.com/jofindev99/WipeOutAdmin#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
