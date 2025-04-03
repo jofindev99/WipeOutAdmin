@@ -18,9 +18,9 @@ app.use(express.json()); //for body parsing
 connectDb()
 .then(()=>{
    console.log("database connectd succesfully");
-   const port =process.env.port
-   app.listen(port,()=>{
-      console.log( `server connected successfully listening  port ${port}`)
+   
+   app.listen(process.env.port,()=>{
+      console.log( `server connected successfully`)
    })
 })
 .catch(err => console.log(err));
