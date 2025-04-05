@@ -38,3 +38,4 @@ const adminSchema= new Schema({
 const adminModel=model("admin",adminSchema)
 
 module.exports={adminModel}
+    
