@@ -66,6 +66,6 @@ const staffSchema = new mongoose.Schema(
   }
 );
 
-const staffModel = mongoose.model("Staff", staffSchema);
+const staffModel = mongoose.model("Staffs", staffSchema);
 
 module.exports = { staffModel };

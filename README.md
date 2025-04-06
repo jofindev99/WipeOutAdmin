@@ -12,3 +12,5 @@ staffmodel
 staffSalaryModel
 inventoryModel
 inventoryPurchaseModel
+
+<!-- Handler files -->

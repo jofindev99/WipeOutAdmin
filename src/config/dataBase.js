@@ -1,13 +1,26 @@
 const mongoose = require('mongoose');
-const dbURL=process.env.dbURL
+const dbURL = process.env.dbURL;
 
 async function connectDb() {
+  try {
     await mongoose.connect(dbURL);
-  
-    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+
+    mongoose.connection.on('connected', () => {
+      console.log(`✅ Connected to DB: ${mongoose.connection.name}`);
+    });
+
+    mongoose.connection.on('error', (err) => {
+      console.error('❌ Mongoose connection error:', err);
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.warn('⚠️ Mongoose disconnected');
+    });
+
+  } catch (error) {
+    console.error('❌ Initial DB connection failed:', error);
+    throw error;
   }
+}
 
-  module.exports= {connectDb}
-
-  
-  
+module.exports = { connectDb };

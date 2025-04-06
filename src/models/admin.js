@@ -17,13 +17,13 @@ const adminSchema= new Schema({
 
     emailId:{
 
-        type:String,required:true,unique:true
+        type:String,required:true,unique:true,index:true
 
     },
 
-    PhoneNumber:{
+    phoneNumber:{
 
-        type:String,required:true,unique:true,unique: true,match: /^[0-9]{10,15}$/
+        type:String,required:true,unique:true,index:true
 
     },
 
@@ -35,7 +35,9 @@ const adminSchema= new Schema({
 
 })
 
-const adminModel=model("admin",adminSchema)
+
+
+const adminModel=model("admin",adminSchema,"admin")
 
 module.exports={adminModel}
     
