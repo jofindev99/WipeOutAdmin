@@ -1,11 +1,10 @@
 const express=require('express')
 const router=express.Router()
-
+const {uploadFields}=require('../config/multer')
 const {adminLoginValidator}=require('../middlewares/loginValidation')
 const {adminAuth}=require('../middlewares/adminAuth')
 const {adminLogin}=require('../controllers/admin/adminSignIn')
 const {getAllStaff,addNewStaff,editExistingStaff,deleteExistingStaff}=require('../controllers/admin/staffManagament')
-
 
 
 
@@ -21,7 +20,7 @@ router.post('/profile',adminAuth,)
 /* staff management */
 
 router.get('/staff',adminAuth,getAllStaff)
-router.post('/staff',adminAuth,addNewStaff)
+router.post('/staff',adminAuth,uploadFields,addNewStaff)
 router.patch('/staff/:id',adminAuth,editExistingStaff)
 router.patch('/staff/:id/delete',adminAuth,deleteExistingStaff)
 

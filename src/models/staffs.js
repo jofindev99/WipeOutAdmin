@@ -6,6 +6,7 @@ const staffSchema = new mongoose.Schema(
     lastName: {type: String,required: true,trim: true},
     gender: {type: String,enum: ["male", "female", "other"]},
     phoneNumber: {type: String,required: true,unique: true,match: /^[0-9]{10,15}$/},
+    email:{type:String,required:true,unique:true},
     password: {type: String,required: true,trim: true},
     address: {
       street: String,
@@ -59,6 +60,11 @@ const staffSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      bankDocument:{
+        type:String
+
+
+      }
     },
   },
   {

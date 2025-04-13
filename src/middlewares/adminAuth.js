@@ -6,11 +6,10 @@ const JWT_SECRET=process.env.JWT_SECRET
 module.exports = {
   adminAuth: async (req, res, next) => {
     try {
-      console.log('hiii');
       
         // Make sure cookies exist
-      const { token } = req.cookies 
-      console.log(token);
+
+      const { token } = req.cookies;
            
       if (!token) {
 
@@ -23,7 +22,6 @@ module.exports = {
       const decodedCookieData = jwt.verify(token, JWT_SECRET);
       
       const admin = await adminModel.findById(decodedCookieData._id);
-      console.log(admin);
       
 
       if (!admin) {
@@ -35,8 +33,9 @@ module.exports = {
         next();        
       }
     } catch (error) {
-        // console.error(error.message)
+
       res.status(error.status || 500).json({success: false, message: error.message || "Internal Server Error" });
+
     }
   },
 };
