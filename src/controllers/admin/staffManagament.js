@@ -1,55 +1,119 @@
-/* staff management  */
-// add new staff details
-// edit exixting staff details
-// delete existing staff details (soft delete , block and unblock , )
-
 const { staffModel } = require("../../models/staffs");
-const { uploadToDrive } = require("../../services/googleDriveService");
+const { validateStaffData } = require("../../utils/staffDataValidator");
+const argon2 = require("argon2");
+const { handleFileUploads } = require("../../utils/handleFileUploads");
 
 module.exports = {
+  addNewStaff: async (req, res) => {
+    try {
+      const existingStaff = await staffModel.findOne({
+        $or: [{ email: req.body.email }, { phoneNumber: req.body.phoneNumber }],
+      });
 
-    addNewStaff :async (req, res) => {
-        try {
-            console.log(req.body)
-          const requiredFields = ['idProof', 'pcc', 'medicalCertificate','bankDocument'];
-      
-          const uploadedFiles = {};
-      
-          for (const field of requiredFields) {
-            const fileArray = req.files[field];
-      
-            if (!fileArray || fileArray.length === 0) {
-              uploadedFiles[field] = {};
-              continue;
-            }
-      
-            const file = fileArray[0];
-            const result = await uploadToDrive(file);
-      
-            uploadedFiles[field] = {
-              originalName: file.originalname,
-              ...result,
-            };
-          }
-      
-          console.log("✅ Files uploaded:", uploadedFiles);
-      
-          return res.status(200).json({
-            success: true,
-            message: "Files uploaded successfully",
-            uploadedFiles,
-          });
-        } catch (error) {
-          console.error("❌ Upload failed:", error);
-          return res.status(500).json({
-            success: false,
-            message: "Upload to Google Drive failed",
-          });
-        }
-      },
-      
-  
-  getAllStaff: async (req, res) => {},
+      if (existingStaff) {
+        return res.status(409).json({
+          success: false,
+          message: "Email or Phone number already exists ,",
+        });
+      }
+
+      const uploadedFiles = await handleFileUploads(req.files);
+      //console.log(...uploadedFiles,'hiiiiiiiiiiiii');
+
+      const {
+        firstName,
+        lastName,
+        gender,
+        phoneNumber,
+        email,
+        password,
+        street,
+        city,
+        state,
+        postalCode,
+        country,
+        idType,
+        idNumber,
+        bankName,
+        accountNumber,
+        ifsc,
+      } = req.body;
+
+      const { profileImage, idProof, pcc, medicalCertificate, bankDocument } =
+        uploadedFiles;
+
+      const data = {
+        firstName,
+        lastName,
+        gender,
+        phoneNumber,
+        email,
+        password,
+        street,
+        city,
+        state,
+        postalCode,
+        country,
+        idType,
+        idNumber,
+        bankName,
+        accountNumber,
+        profileImage,
+        ifsc,
+        idProof,
+        pcc,
+        medicalCertificate,
+        bankDocument,
+      };
+
+      const hashedPassword = await argon2.hash(password);
+      data.password = hashedPassword;
+      const validatedresult = await validateStaffData(data);
+
+      const staff = new staffModel(validatedresult);
+      await staff.save();
+
+      res
+        .status(201)
+        .json({ success: true, message: "staff added  successfully" });
+    } catch (error) {
+      res.status(error.status || 500).json({
+        success: false,
+        message: error.message || "Internal Server Error",
+      });
+    }
+  },
+
+  getAllStaff: async (req, res) => {
+    try {
+      const allStaffs = await staffModel
+        .find()
+        .select(
+          "-password -staffBankDetails -idProof -documentURL -address -__v -createdAt -updatedAt"
+        );
+
+      if (!allStaffs) {
+
+        const error = new Error("User not found");
+        error.status = 404;
+        throw error;
+
+      } else if (allStaffs.length === 0) {
+
+        const error = new Error("No staff found");
+        error.status = 404;
+        throw error;
+
+      }
+
+      res.status(20).json({ success: true,data:allStaffs });
+    } catch (error) {
+      res.status(error.status || 500).json({
+        success: false,
+        message: error.message || "Internal Server Error",
+      });
+    }
+  },
   editExistingStaff: (req, res) => {},
   deleteExistingStaff: (req, res) => {},
 };

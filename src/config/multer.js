@@ -6,6 +6,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID;
 
 const uploadFields = upload.fields([
+  { name: "profileImage", maxCount: 1 },
   { name: "idProof", maxCount: 1 },
   { name: "pcc", maxCount: 1 },
   { name: "medicalCertificate", maxCount: 1 },

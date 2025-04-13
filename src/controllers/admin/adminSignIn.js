@@ -60,7 +60,7 @@ module.exports = {
 
   //     // validation of data
   //     await loginValidator({emailId,phoneNumber,password})
-
+    
   //     // hashPassword
 
   //     const hashedPassword = await argon2.hash(password);
