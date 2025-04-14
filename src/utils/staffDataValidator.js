@@ -78,10 +78,10 @@ const documentObjectSchema = z.object({
 
 // Documents schema
 const documentURLSchema = z.object({
-  profileImage: documentObjectSchema.optional(),
-  idProof: documentObjectSchema.optional(),
-  pcc: documentObjectSchema.optional(),
-  medicalCertificate: documentObjectSchema.optional(),
+  profileImage: documentObjectSchema.optional().nullable(),
+  idProof: documentObjectSchema.optional().nullable(),
+  pcc: documentObjectSchema.optional().nullable(),
+  medicalCertificate: documentObjectSchema.optional().nullable(),
 });
 
 //bankDocumentSchema
@@ -97,7 +97,7 @@ const staffBankDetailsSchema = z.object({
   bankName: z.string(),
   accountNumber: z.string(),
   ifsc: z.string(),
-  bankDocument:bankDocumentObjectSchema
+  bankDocument:bankDocumentObjectSchema.optional().nullable(),
 
 });
 
@@ -117,9 +117,12 @@ const staffValidationSchema = z.object({
 });
 
 // Validation function
-const validateStaffData = async ({firstName,lastName,gender,phoneNumber,email,password,
-  street,city,state,postalCode,country,idType,idNumber,bankName,accountNumber,ifsc,profileImage,
-  idProof,pcc,medicalCertificate,bankDocument}) => {
+const validateStaffData = async (
+  {
+  firstName,lastName,gender,phoneNumber,email,password,street,city,state,
+  postalCode,country,idType,idNumber,bankName,accountNumber,ifsc,profileImage,
+  idProof,pcc,medicalCertificate,bankDocument
+}) => {
   const data = {
     firstName,
     lastName,

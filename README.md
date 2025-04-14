@@ -3,6 +3,7 @@ setup.env file : npm i dotenv
 setup database :npm i mongoose , // i am using mongoose instead of mongodb 
 
 <!-- DB MOodels -->
+
 admin model
 billing model
 couponModel
@@ -13,12 +14,40 @@ staffSalaryModel
 inventoryModel
 inventoryPurchaseModel
 
-<!-- APIs -->
+
+<!------------------------------------------------------------- admin APIs ----------------------------------------------------------------->
+
+
+
 admin login ✅
-addNewStaff✅
-getAllStaff
-Block/UnblockStaff
-Edit StaffDetails
+
+
+<!-- staff-managemant -->
+add a New Staff✅
+get All Staffs✅
+get a Staff Data✅
+staff Block/Unblock✅
+Edit StaffDetails❌
+
+
+
+<!---  coupon managemant  --->
+
+generate new coupon
+
+
+
+
+
+
+
+
+
+
+<!---------------------------------------------------- staff apis ---------------------------------------------- -->
+
+
+
 
 
 

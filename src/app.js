@@ -10,10 +10,17 @@ const cookieParser = require('cookie-parser')
 const app=express();
 
 
-// middleware 
+// Middleware for parsing URL-encoded data (from form submissions)
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json()); //for body parsing 
-app.use(cookieParser()); //for cookie parsing 
+// Middleware for parsing the request body as JSON
+app.use(express.json()); 
+
+// Middleware for parsing cookies from incoming requests
+app.use(cookieParser()); 
+
+
+
 
 // routes
 

@@ -32,7 +32,7 @@ module.exports = {
           maxAge: 7 * 24 * 60 * 60 * 1000,
           // domain: ".yourdomain.com", // 👈 domain here
         });        
-        res.status(200).json({success: true, message: "Login successful",user: { name: `${admin.firstName} ${' '} ${admin.lastName}`}});
+        return res.status(200).json({success: true, message: "Login successful",user: { name: `${admin.firstName} ${' '} ${admin.lastName}`}});
 
       }else{
         throw new UnauthorizedError("Credentials not matched");
@@ -42,7 +42,7 @@ module.exports = {
       
     } catch (error) {
 
-      res.status(error.status || 500).json({success: false, message: error.message || 'Internal Server Error' });
+      return res.status(error.status || 500).json({success: false, message: error.message || 'Internal Server Error' });
 
     }
   },

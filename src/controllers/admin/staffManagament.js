@@ -5,6 +5,8 @@ const { handleFileUploads } = require("../../utils/handleFileUploads");
 
 module.exports = {
   addNewStaff: async (req, res) => {
+    console.log(req.files);
+    
     try {
       const existingStaff = await staffModel.findOne({
         $or: [{ email: req.body.email }, { phoneNumber: req.body.phoneNumber }],
@@ -18,7 +20,6 @@ module.exports = {
       }
 
       const uploadedFiles = await handleFileUploads(req.files);
-      //console.log(...uploadedFiles,'hiiiiiiiiiiiii');
 
       const {
         firstName,
@@ -73,14 +74,12 @@ module.exports = {
       const staff = new staffModel(validatedresult);
       await staff.save();
 
-      res
-        .status(201)
-        .json({ success: true, message: "staff added  successfully" });
+      return res.status(201).json({ success: true, message: "staff added  successfully" });
     } catch (error) {
-      res.status(error.status || 500).json({
-        success: false,
-        message: error.message || "Internal Server Error",
-      });
+
+      console.error("Error fetching staff data:", error);
+      return res.status(error.status || 500).json({success: false,message: error.message || "Internal Server Error",});
+
     }
   },
 
@@ -103,17 +102,70 @@ module.exports = {
         const error = new Error("No staff found");
         error.status = 404;
         throw error;
-
+        
       }
-
-      res.status(20).json({ success: true,data:allStaffs });
+      return res.status(200).json({ success: true,data:allStaffs });
     } catch (error) {
-      res.status(error.status || 500).json({
-        success: false,
-        message: error.message || "Internal Server Error",
-      });
+
+      console.error("Error fetching staff data:", error);
+      return res.status(error.status || 500).json({success: false,message: error.message || "Internal Server Error",});
+
     }
   },
-  editExistingStaff: (req, res) => {},
-  deleteExistingStaff: (req, res) => {},
+  editExistingStaff: async(req, res) => {
+    console.log(req.params.id);
+     console.log(req.body);
+    console.log(req.files,'llll');
+     
+    
+  },
+  deleteExistingStaff: async(req, res) => {
+    
+    try {
+      const {id:staffId}=req.params
+
+    const existingStaff = await staffModel.findOne({_id:staffId})
+    if(!existingStaff){
+
+      return res.status(404).json({success:false, message: "Staff not found" });
+    }
+    if(existingStaff.status){
+      await staffModel.findByIdAndUpdate(staffId, { status:false });
+
+      return res.status(200).json({success: true, message:`${existingStaff.firstName} blocked successfully` });
+
+    }else if(!existingStaff.status){
+
+      await staffModel.findByIdAndUpdate(staffId, { status:true });
+
+      return res.status(200).json({success: true, message: `${existingStaff.firstName} unblocked successfully` });
+
+    }
+    
+    } catch (error) {
+
+      console.error("Error fetching staff data:", error);
+      return res.status(error.status || 500).json({success: false,message: error.message || "Internal Server Error",});
+      
+    } 
+  },
+  getStaffData:async(req,res)=>{
+    try {
+
+      const {id:staffId}=req.params
+      const staff = await staffModel.findById(staffId).select(
+        "-password  -__v -createdAt -updatedAt"
+      );
+      if(!staff){
+        return res.status(404).json({success:false,message:'this staff not found '})
+      }
+      return res.status(200).json({success:true,data:staff})
+
+    } catch (error) {
+
+      console.error("Error fetching staff data:", error);
+      return res.status(error.status || 500).json({success: false,message: error.message || "Internal Server Error",});
+
+    }
+  }
 };

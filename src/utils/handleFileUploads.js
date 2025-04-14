@@ -1,5 +1,4 @@
 const { uploadToDrive } = require("../services/googleDriveService");
-// const { uploadToDrive } = require("../../services/googleDriveService");
 
 const handleFileUploads = async (files) => {
     const requiredFields = [
