@@ -22,8 +22,8 @@ const couponSchema = new Schema({
   usageLimit: { type: Number, default: 1 }, // How many times this coupon can be used
   usedCount: { type: Number, default: 0 }, // Tracks how many times it's been used
 
-  isActive: { type: Boolean, default: true },
+  isActive: { type: Boolean, default: false },
 }, { timestamps: true });
 
-const Coupon = model("Coupon", couponSchema);
-module.exports = { Coupon };
+const CouponModel = model("Coupon", couponSchema);
+module.exports = { CouponModel };

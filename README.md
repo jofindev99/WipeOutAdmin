@@ -2,6 +2,7 @@ server created: npm i express
 setup.env file : npm i dotenv
 setup database :npm i mongoose , // i am using mongoose instead of mongodb 
 
+
 <!-- DB MOodels -->
 
 admin model
@@ -15,10 +16,10 @@ inventoryModel
 inventoryPurchaseModel
 
 
-<!------------------------------------------------------------- admin APIs ----------------------------------------------------------------->
+<!------------------------------------------------------------- admin side  APIs ----------------------------------------------------------------->
 
 
-
+<!-- authentication -->
 admin login ✅
 
 
@@ -33,18 +34,38 @@ Edit StaffDetails❌
 
 <!---  coupon managemant  --->
 
-generate new coupon
+generate new coupon 
+edit coupon
+get all coupon
+block/unblock coupon
 
 
+<!-- service Management -->
 
-
-
+add a service
+edit a service
+get all service 
+block or unblock serviceilayiii
 
 
 
 
 
 <!---------------------------------------------------- staff apis ---------------------------------------------- -->
+
+<!-- authonetication -->
+
+staff login
+
+
+
+
+<!-- billing -->
+getbilling details 
+postbill
+apply coupon
+paymet initiate 
+
 
 
 
@@ -67,6 +88,22 @@ create new mongodb account
 create new razorpay account
 create new razorpay x
 apis of google drive 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
