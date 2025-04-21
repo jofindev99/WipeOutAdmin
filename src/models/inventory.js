@@ -9,5 +9,5 @@ const inventorySchema = new Schema({
   lastUpdated: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-const Inventory = model("Inventory", inventorySchema);
-module.exports = { Inventory };
+const inventory = model("Inventory", inventorySchema);
+module.exports = { inventory };
