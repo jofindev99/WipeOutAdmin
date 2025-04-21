@@ -122,6 +122,9 @@ module.exports = {
     
     try {
 
+      console.log(req.params);
+      
+
     const {id:staffId}=req.params
 
     const existingStaff = await staffModel.findOne({_id:staffId})

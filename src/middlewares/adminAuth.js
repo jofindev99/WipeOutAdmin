@@ -13,7 +13,7 @@ module.exports = {
            
       if (!token) {
 
-         res.status(401).json({success: false,message: "Authentication token missing",});
+         return res.status(401).json({success: false,message: "Authentication token missing login again",});
 
       }
 
@@ -34,7 +34,7 @@ module.exports = {
       }
     } catch (error) {
 
-      res.status(error.status || 500).json({success: false, message: error.message || "Internal Server Error" });
+      return res.status(error.status || 500).json({success: false, message: error.message || "Internal Server Error" });
 
     }
   },
