@@ -22,6 +22,7 @@ module.exports = {
       res.status(500).json({ message: "Failed to fetch services" });
     }
   },
+
   changeCouponStatus: async (req, res) => {
     try {
       const { id: couponId } = req.params;
@@ -60,7 +61,7 @@ module.exports = {
         }
   
         return res.status(200).json({
-          message: "Service updated successfully",
+          message: "coupon updated successfully",
           //service: updatedService,
         });
       } catch (error) {
@@ -69,6 +70,29 @@ module.exports = {
   
         return res.status(500).json({ message: " something went wrong" });
       }
+
+  },
+  getACoupon:async(req,res)=>{
+    try {
+
+      const { id: couponId } = req.params;
+      const coupon = await CouponModel.findById({ _id: couponId });
+      if (!coupon) {
+        return res.status(404).json({ message: "Coupon not found" });
+      }
+      return res.status(200).json({
+        message: "copon data",coupon: coupon,});
+
+
+      
+    } catch (error) {
+
+      return res.status(500).json({ message: " something went wrong" });
+      
+    }
+
+    
+
 
   }
 };

@@ -84,4 +84,23 @@ module.exports = {
       return res.status(500).json({ message: " something went wrong" });
     }
   },
-};
+  getAService:async(req,res)=>{
+      try {
+  
+        const { id: serviceId } = req.params;
+        const service = await serviceModel.findById({ _id: serviceId });
+        if (!service) {
+          return res.status(404).json({ message: "Coupon not found" });
+        }
+        return res.status(200).json({
+          message: "service data",service:service,});
+  
+  
+        
+      } catch (error) {
+  
+        return res.status(500).json({ message: " something went wrong" });
+        
+      }
+    }
+}

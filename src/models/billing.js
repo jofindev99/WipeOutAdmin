@@ -65,4 +65,6 @@ billingSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("Billing", billingSchema);
+const CouponModel = model("Billing", billingSchema);
+
+module.exports={CouponModel}

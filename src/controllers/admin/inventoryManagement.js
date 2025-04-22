@@ -92,6 +92,29 @@ module.exports={
           }
 
 
+    },
+
+    getAItem:async(req,res)=>{
+
+      try {
+  
+        const { id: itemId } = req.params;
+
+        const item = await  inventoryModel.findById({ _id: itemId });
+
+        if (!item) {
+
+          return res.status(404).json({ message: "item not found" });
+        }
+
+        return res.status(200).json({message: "item data",item:item,});
+
+      } catch (error) {
+  
+        return res.status(500).json({ message: " something went wrong" });
+        
+      }
+
     }
     
 

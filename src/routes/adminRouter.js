@@ -5,9 +5,9 @@ const {adminLoginValidator}=require('../middlewares/loginValidation');
 const {adminAuth}=require('../middlewares/adminAuth');
 const {adminLogin}=require('../controllers/admin/adminSignIn');
 const {getAllStaff,addNewStaff,editExistingStaff,deleteExistingStaff,getStaffData}=require('../controllers/admin/staffManagament');
-const {addCoupon,getAllCoupon,changeCouponStatus,updateCoupon}=require('../controllers/admin/couponManagement');
-const {addService,getAllService,changeserviceStatus,updateService}=require('../controllers/admin/serviceManagement');
-const {addItem,getAllItems,updateItem,updateStatus}=require('../controllers/admin/inventoryManagement')
+const {addCoupon,getAllCoupon,changeCouponStatus,updateCoupon,getACoupon}=require('../controllers/admin/couponManagement');
+const {addService,getAllService,changeserviceStatus,updateService,getAService}=require('../controllers/admin/serviceManagement');
+const {addItem,getAllItems,updateItem,updateStatus,getAItem}=require('../controllers/admin/inventoryManagement')
 
 
 
@@ -36,6 +36,7 @@ router.patch('/staff/:id/status',adminAuth,deleteExistingStaff)//✅
 
 router.post("/coupon",adminAuth,addCoupon)//✅
 router.get("/coupon",adminAuth,getAllCoupon) // ✅
+router.get("/coupon/:id",adminAuth,getACoupon),//✅
 router.patch("/coupon/:id",adminAuth,updateCoupon)//✅
 router.patch("/coupon/:id/status",adminAuth,changeCouponStatus)//✅
 
@@ -46,8 +47,17 @@ router.patch("/coupon/:id/status",adminAuth,changeCouponStatus)//✅
 
 router.post("/service",adminAuth,addService)//✅
 router.get("/service",adminAuth,getAllService)//✅
+router.get("/service/:id",adminAuth, getAService)//✅
 router.patch("/service/:id",adminAuth, updateService)//✅
 router.patch("/service/:id/status",adminAuth,changeserviceStatus)//✅
+
+/* inventory */
+
+router.post("/inventory",adminAuth,addItem)//✅
+router.get("/inventory",adminAuth,getAllItems)//✅
+router.get("/inventory/:id",adminAuth,getAItem)//✅
+router.patch("/inventory/:id",adminAuth,updateItem)//✅
+router.patch("/inventory/:id/status",adminAuth,updateStatus)//✅
 
 
 /* bill management*/
@@ -62,13 +72,6 @@ router.patch("/billing/:id",adminAuth)//❌
 
 router.get("/checkout",adminAuth,)//❌
 
-
-
-/* inventory */
-router.post("/inventory",adminAuth,addItem)//✅
-router.get("/inventory",adminAuth,getAllItems)//✅
-router.patch("/inventory/:id",adminAuth,updateItem)//✅
-router.patch("/inventory/:id/status",adminAuth,updateStatus)//✅
 
 
 
