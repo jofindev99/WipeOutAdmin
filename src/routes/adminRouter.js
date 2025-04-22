@@ -7,7 +7,7 @@ const {adminLogin}=require('../controllers/admin/adminSignIn');
 const {getAllStaff,addNewStaff,editExistingStaff,deleteExistingStaff,getStaffData}=require('../controllers/admin/staffManagament');
 const {addCoupon,getAllCoupon,changeCouponStatus,updateCoupon}=require('../controllers/admin/couponManagement');
 const {addService,getAllService,changeserviceStatus,updateService}=require('../controllers/admin/serviceManagement');
-const {addItem,getAllItems,updateItem}=require('../controllers/admin/inventoryManagement')
+const {addItem,getAllItems,updateItem,updateStatus}=require('../controllers/admin/inventoryManagement')
 
 
 
@@ -62,10 +62,13 @@ router.patch("/billing/:id",adminAuth)//❌
 
 router.get("/checkout",adminAuth,)//❌
 
+
+
 /* inventory */
 router.post("/inventory",adminAuth,addItem)//✅
 router.get("/inventory",adminAuth,getAllItems)//✅
 router.patch("/inventory/:id",adminAuth,updateItem)//✅
+router.patch("/inventory/:id/status",adminAuth,updateStatus)//✅
 
 
 

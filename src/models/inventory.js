@@ -6,8 +6,9 @@ const inventorySchema = new Schema({
   quantity: { type: Number, required: true,default:0 },
   unit: { type: String }, // liters, pieces, kg, etc.
   reorderLevel: { type: Number, default: 0 }, // Alert if stock below this
+  isActive:{type:Boolean,default:true},
   lastUpdated: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-const inventory = model("Inventory", inventorySchema);
-module.exports = { inventory };
+const inventoryModel = model("Inventory", inventorySchema);
+module.exports = { inventoryModel };
