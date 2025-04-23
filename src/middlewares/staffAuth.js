@@ -21,7 +21,9 @@ module.exports = {
 
       const decodedCookieData = jwt.verify(token, JWT_SECRET);
       
-      const staff = await staffModel.findById(decodedCookieData._id);
+      const staff = await staffModel.findById(decodedCookieData._id).select(
+        "-password -staffBankDetails -idProof -documentURL -status -address -phoneNumber -email -gender -__v -createdAt -updatedAt"
+      );
       
 
       if (!staff) {

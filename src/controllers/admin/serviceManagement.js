@@ -18,18 +18,19 @@ module.exports = {
         .status(201)
         .json({ message: "serviceData added successfully" });
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       return res.status(400).json({ message: "efhbeb" });
     }
   },
 
   getAllService: async (req, res) => {
     try {
+      
       const services = await serviceModel.find(); // Fetch all services
-      res.status(200).json({ services });
+      res.status(200).json({ services:services,});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Failed to fetch services" });
+      res.status(500).json({ message: "Failed to fetch services", });
     }
   },
 
@@ -38,7 +39,7 @@ module.exports = {
       const { id: serviceId } = req.params;
 
       const service = await serviceModel.findById({ _id: serviceId });
-      if (!service) {
+      if (!service||undefined) {
         return res.status(404).json({ message: "Service not found" });
       }
 

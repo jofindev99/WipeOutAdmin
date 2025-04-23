@@ -25,6 +25,8 @@ module.exports = {
 
   changeCouponStatus: async (req, res) => {
     try {
+      console.log(req.params);
+      
       const { id: couponId } = req.params;
 
       const coupon = await CouponModel.findById({ _id: couponId });
@@ -40,7 +42,6 @@ module.exports = {
 
     } catch (error) {
 
-        console.error(error);
         return res.status(500).json({ message: " something went wrong" });
 
     }

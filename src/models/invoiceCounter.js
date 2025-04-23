@@ -5,8 +5,8 @@ const {model,Schema}=mongoose;
 const invoiceNoSchema= new Schema({
     invoiceName:{type:String,default:"WOS"},
     
-    value:{type:Number,default:10000}
+    value: { type: Number, default: 100001 },
 })
-const invoiceNoModal=mongoose.model('invoiceNo',invoiceNoSchema)
+const invoiceNoModal=model('invoiceNo',invoiceNoSchema)
 
 module.exports={invoiceNoModal}

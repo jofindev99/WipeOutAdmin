@@ -8,7 +8,6 @@ module.exports = {
   staffLogin: async (req, res) => {
     try {
       const { phoneNumber, password } = req.body;
-      console.log(phoneNumber, password);
 
       const staff = await staffModel.findOne({ phoneNumber: phoneNumber });
       if (!staff) {
@@ -16,7 +15,6 @@ module.exports = {
       }
 
       const matchedPassword = await argon2.verify(staff.password, password);
-      console.log(matchedPassword);
       if (matchedPassword) {
         const token = jwt.sign({ _id: staff._id }, JWT_SECRET, {expiresIn: "7d"});
 
