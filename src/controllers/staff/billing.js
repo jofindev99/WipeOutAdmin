@@ -38,6 +38,73 @@ module.exports = {
   },
 
 
+  applyCoupon: async (req, res) => {
+    try {
+      const { code, billingId } = req.body;
+  
+      const coupon = await CouponModel.findOne({ code });
+      if (!coupon) {
+        return res.status(404).json({ message: "Coupon not found" });
+      }
+  
+      if (!coupon.isActive) {
+
+        return res.status(400).json({ message: "Coupon is not active" });
+
+      }
+  
+      const bill = await billingModel.findById(billingId);
+
+      if (!bill) {
+
+        return res.status(404).json({ message: "Bill not found" });
+
+      }
+  
+      const originalAmount = bill.finalAmount;
+  
+      if (originalAmount < coupon.minInvoiceAmount) {
+
+        return res.status(422).json({message: `Cannot apply coupon. Minimum purchase of ₹${coupon.minInvoiceAmount} is required.`,});
+
+      }
+  
+      let discountApplied = 0;
+  
+      if (coupon.discountType === "flat") {
+        
+        discountApplied = coupon.discountValue;
+  
+      } else if (coupon.discountType === "percentage") {
+
+        const percentageDiscount = (originalAmount * coupon.discountValue) / 100;
+        discountApplied = Math.min(percentageDiscount, coupon.maxDiscount || percentageDiscount);
+      } else {
+        return res.status(400).json({ message: "Invalid discount type" });
+      }
+  
+      bill.finalAmount = Math.max(originalAmount - discountApplied, 0); // avoid negative finalAmount
+      bill.appliedCoupon.couponId = coupon._id;
+      await bill.save();
+  
+      const populatedBill = await billingModel
+        .findById(billingId)
+        .populate("billingStaff")
+        .populate("appliedCoupon.couponId");
+  
+      return res.status(200).json({
+        message: "Coupon applied successfully",
+        discountApplied,
+        finalAmount: bill.finalAmount,
+        bill: populatedBill,
+      });
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      return res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+  ,
+  
   // applyCoupon: async (req, res) => {
 
   //   try {
@@ -103,63 +170,5 @@ module.exports = {
   // },
 
 
-  applyCoupon: async (req, res) => {
-    try {
-      const { code, billingId } = req.body;
-  
-      const coupon = await CouponModel.findOne({ code });
-      if (!coupon) {
-        return res.status(404).json({ message: "Coupon not found" });
-      }
-  
-      if (!coupon.isActive) {
-        return res.status(400).json({ message: "Coupon is not active" });
-      }
-  
-      const bill = await billingModel.findById(billingId);
-      if (!bill) {
-        return res.status(404).json({ message: "Bill not found" });
-      }
-  
-      const originalAmount = bill.finalAmount;
-  
-      if (originalAmount < coupon.minInvoiceAmount) {
-        return res.status(422).json({
-          message: `Cannot apply coupon. Minimum purchase of ₹${coupon.minInvoiceAmount} is required.`,
-        });
-      }
-  
-      let discountApplied = 0;
-  
-      if (coupon.discountType === "flat") {
-        discountApplied = coupon.discountValue;
-  
-      } else if (coupon.discountType === "percentage") {
-        const percentageDiscount = (originalAmount * coupon.discountValue) / 100;
-        discountApplied = Math.min(percentageDiscount, coupon.maxDiscount || percentageDiscount);
-      } else {
-        return res.status(400).json({ message: "Invalid discount type" });
-      }
-  
-      bill.finalAmount = Math.max(originalAmount - discountApplied, 0); // avoid negative finalAmount
-      bill.appliedCoupon.couponId = coupon._id;
-      await bill.save();
-  
-      const populatedBill = await billingModel
-        .findById(billingId)
-        .populate("billingStaff")
-        .populate("appliedCoupon.couponId");
-  
-      return res.status(200).json({
-        message: "Coupon applied successfully",
-        discountApplied,
-        finalAmount: bill.finalAmount,
-        bill: populatedBill,
-      });
-    } catch (error) {
-      console.error("Error applying coupon:", error);
-      return res.status(500).json({ message: "Something went wrong" });
-    }
-  }
   
 };
