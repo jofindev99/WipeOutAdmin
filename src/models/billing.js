@@ -23,8 +23,6 @@ const billingSchema = new Schema(
         vehicleName:{
             type:String// example : maruthi breeza
         }
-
-
     },
 
     serviceItems: [ServiceItemSchema],

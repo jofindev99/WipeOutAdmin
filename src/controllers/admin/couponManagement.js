@@ -1,6 +1,7 @@
 const { CouponModel } = require("../../models/coupon");
 
 module.exports = {
+
   addCoupon: async (req, res) => {
     try {
       console.log(req.body);
@@ -13,7 +14,9 @@ module.exports = {
       res.status(400).json({ message: "efhbeb" });
     }
   },
+
   getAllCoupon: async (req, res) => {
+
     try {
       const coupons = await CouponModel.find(); // Fetch all services
       res.status(200).json({ coupons });
@@ -24,6 +27,7 @@ module.exports = {
   },
 
   changeCouponStatus: async (req, res) => {
+
     try {
       console.log(req.params);
       
@@ -46,6 +50,7 @@ module.exports = {
 
     }
   },
+
   updateCoupon:async (req,res)=>{
     try {
         const updatedDAta = req.body;
@@ -62,9 +67,8 @@ module.exports = {
         }
   
         return res.status(200).json({
-          message: "coupon updated successfully",
-          //service: updatedService,
-        });
+          message: "coupon updated successfully",});
+
       } catch (error) {
   
         console.error(error);
@@ -73,6 +77,7 @@ module.exports = {
       }
 
   },
+  
   getACoupon:async(req,res)=>{
     try {
 
@@ -81,19 +86,13 @@ module.exports = {
       if (!coupon) {
         return res.status(404).json({ message: "Coupon not found" });
       }
-      return res.status(200).json({
-        message: "copon data",coupon: coupon,});
+      return res.status(200).json({message: "copon data",coupon: coupon,});
 
-
-      
     } catch (error) {
 
       return res.status(500).json({ message: " something went wrong" });
       
     }
-
-    
-
 
   }
 };
