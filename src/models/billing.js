@@ -33,7 +33,7 @@ const billingSchema = new Schema(
 
     appliedCoupon: {
       
-      couponId: { type: mongoose.Schema.Types.ObjectId,default:null, ref: "Coupon"  },
+      couponId: { type: mongoose.Schema.Types.ObjectId,default:null, ref:"Coupon"},
     },
     discount:{ type: Number, default: 0 },
     finalAmount: { type: Number, required: true },
@@ -44,7 +44,7 @@ const billingSchema = new Schema(
       default: "pending",
     },
     notes: { type: String },
-    billingStaff:{ type: mongoose.Schema.Types.ObjectId, ref: "staffs" },
+    billingStaff:{ type: mongoose.Schema.Types.ObjectId, ref: "Staffs" },
   },
   { timestamps: true }
 );
